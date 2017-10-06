@@ -14,7 +14,7 @@ Feel free to leave any feedback [here](https://github.com/naofireblade/homebridg
 - List and use variables.
 - Utilize the variables in homekit rules.
 
-The following variable types and options are currently available.
+## Variable types and options
 
 - Timer (Days, Hours, Minutes, Seconds)
 - Counter (Min, Max, Count up, Count down)
@@ -33,7 +33,7 @@ The following variable types and options are currently available.
 2. Install this plugin using: `npm install -g homebridge-logic`
 3. Update your configuration file. See the samples below.
 
-## Configuration
+### Configuration
 
 Add the following information to your config file. Make sure to add your API key and provide your city or postal code.
 
@@ -48,7 +48,7 @@ Add the following information to your config file. Make sure to add your API key
 
 ## Example use cases
 
-- Find and add your own here [here](https://github.com/naofireblade/homebridge-logic/wiki)
+Find and add your own here [here](https://github.com/naofireblade/homebridge-logic/wiki)
 
 ## Screenshots
 ### Choose variable type to add
