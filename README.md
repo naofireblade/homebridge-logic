@@ -48,19 +48,19 @@ Add the following information to your config file. Make sure to add your API key
 
 ## Example use cases
 
-- TODO
+- Find and add your own here [here](https://github.com/naofireblade/homebridge-logic/wiki)
 
 ## Screenshots
+### Choose variable type to add
 ![Variable types to add](https://i.imgur.com/WMUG97gl.png)
->Choose variable type to add
 
-![Variable options counter](https://i.imgur.com/t70hl4Zl.png) ![Variable options timer](https://i.imgur.com/sfIx3URl.png)
->Variable options
+### Define variable options
+![Define variable options for counter](https://i.imgur.com/t70hl4Zl.png) ![Define variable options for timer](https://i.imgur.com/sfIx3URl.png)
 
-![List and use your created variables](https://i.imgur.com/03B2tQHl.png)
->List and use your created variables
+### List and use your variables
+![List and use your variables](https://i.imgur.com/03B2tQHl.png)
 
-![Remove variable](https://i.imgur.com/bJhrD42l.png)
->Remove variable
+### Remove a variable
+![Remove a variable](https://i.imgur.com/bJhrD42l.png)
 
-(c) Screenshots are taken from Elgato Eve app
+>(c) Screenshots are taken from Elgato Eve app
