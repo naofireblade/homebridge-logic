@@ -1,0 +1,27 @@
+{
+  "name": "homebridge-logic",
+  "version": "0.1.0",
+  "description": "A plugin for homebridge to create supercharged variables.",
+  "license": "MIT",
+  "keywords": [
+    "homebridge-plugin",
+    "variable",
+    "variables",
+    "counter",
+    "timer"
+  ],
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  },
+  "author": {
+    "name": "Arne Blumentritt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/naofireblade/homebridge-logic.git"
+  },
+  "dependencies": {
+    "debug": "^2.2.0"
+  }
+}
