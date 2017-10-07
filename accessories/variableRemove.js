@@ -63,6 +63,8 @@ VariableRemoveAccessory.prototype = {
 				debug("Removed variable with name \"%s\"", removeList[i].displayName);
 			}
 
+			// TODO remove variable from cache
+
 			// re-add hint text if last variable was deleted, because homekit hides services with no characteristics
 			if(this.variableListService.characteristics.length == 1)
 			{

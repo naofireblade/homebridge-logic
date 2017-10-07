@@ -66,6 +66,10 @@ LogicPlatform.prototype = {
 		this.variableNamePlaceholder = variableNamePlaceholder;
 		this.hintPlaceholder = hintPlaceholder;
 
+		let directory = "/var/lib/homebridge-dev/logic";
+		this.storage = require('node-persist');
+		this.storage.initSync({dir:directory});
+
 		// General information service for all accessories in this platform
 		this.informationService = new Service.AccessoryInformation();
 		this.informationService.setCharacteristic(Characteristic.Manufacturer, "Homebridge Logic");
@@ -97,6 +101,29 @@ LogicPlatform.prototype = {
 		this.accessories.push(variableAddTimerAccessory);
 		this.accessories.push(variableRemoveAccessory);
 		this.accessories.push(variableListAccessory);
+
+		debug("Check for cached variables");
+		for (var i in this.storage.values()) {
+			let cachedCharacteristic = this.storage.values()[i];
+			// TODO statt hier nem switch case, die addVariable Methode viel dynamischer machen, sodass sie erkennt ob aus cache geladen wird
+			// und dann entsprechend die werte aus den option characteristiken zu laden oder im cache nach der characteristic sucht welche die
+			// options als properties in sich selbst gespeichert hat (name muss als parameter übergeben werden)
+			switch (cachedCharacteristic.type)
+			{
+				case 5:
+				{
+					variableAddTimerAccessory.variableAddService.setCharacteristic(CustomCharacteristic.VariableName, cachedCharacteristic.displayName);
+					variableAddTimerAccessory.addVariable(cachedCharacteristic.type, true, function() {
+						debug("Added variable from cache: " + cachedCharacteristic.displayName);
+					});
+					break;
+				}
+				default:
+				{
+					break;
+				}
+			}
+		}
 
 		callback(this.accessories);
 	}

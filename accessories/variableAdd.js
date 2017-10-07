@@ -35,6 +35,7 @@ function VariableAddAccessory(platform, type) {
 	this.informationService = platform.informationService;
 	this.variableRemoveService = platform.variableRemoveService;
 	this.variableListService = platform.variableListService;
+	this.storage = platform.storage;
 
 	switch(type)
 	{
@@ -100,15 +101,22 @@ VariableAddAccessory.prototype = {
 		let that = this;
 		if (on) {
 			let uuid = this.generateUUID();
-			let name;
+			let name = this.variableAddService.getCharacteristic(CustomCharacteristic.VariableName).value;
 			let typeName;
+			let readd = false;
 
+			let cachedCharacteristic = this.storage.getItemSync("variable-" + name.toUpperCase());
+			if (cachedCharacteristic !== undefined) {
+				uuid = cachedCharacteristic.UUID;
+				readd = true;
+			}
+
+			// TODO doubled code in case blocks, cleanup
 			switch(type)
 			{
 				case 1:
 				{
 					typeName = "Counter";
-					name = this.variableAddService.getCharacteristic(CustomCharacteristic.VariableName).value;
 					let min = this.variableAddService.getCharacteristic(CustomCharacteristic.CounterMin).value;
 					let max = this.variableAddService.getCharacteristic(CustomCharacteristic.CounterMax).value;
 					let countUp = this.variableAddService.getCharacteristic(CustomCharacteristic.CounterUp).value;
@@ -118,13 +126,11 @@ VariableAddAccessory.prototype = {
 						that.variableAddService.setCharacteristic(CustomCharacteristic.VariableAdd, false);
 					},1000);
 
-					if (this.checkDuplicateVariableName(name))
-					{
+					if (this.checkDuplicateVariableName(name)) {
 						callback();
 						return;
 					}
-					else if (max <= min)
-					{
+					else if (max <= min) {
 						debug("max <= min");
 						callback();
 						return;
@@ -186,15 +192,13 @@ VariableAddAccessory.prototype = {
 				case 2:
 				{
 					typeName = "Sensor";
-					name = this.variableAddService.getCharacteristic(CustomCharacteristic.VariableName).value;
 					let sensorType = this.variableAddService.getCharacteristic(CustomCharacteristic.SensorType).value;
 
 					setTimeout(function() {
 						that.variableAddService.setCharacteristic(CustomCharacteristic.VariableAdd, false);
 					},1000);
 
-					if (this.checkDuplicateVariableName(name))
-					{
+					if (this.checkDuplicateVariableName(name)) {
 						callback();
 						return;
 					}
@@ -251,14 +255,12 @@ VariableAddAccessory.prototype = {
 				case 3:
 				{
 					typeName = "Switch";
-					name = this.variableAddService.getCharacteristic(CustomCharacteristic.VariableName).value;
 
 					setTimeout(function() {
 						that.variableAddService.setCharacteristic(CustomCharacteristic.VariableAdd, false);
 					},1000);
 
-					if (this.checkDuplicateVariableName(name))
-					{
+					if (this.checkDuplicateVariableName(name)) {
 						callback();
 						return;
 					}
@@ -282,15 +284,13 @@ VariableAddAccessory.prototype = {
 				case 4:
 				{
 					typeName = "Text";
-					name = this.variableAddService.getCharacteristic(CustomCharacteristic.VariableName).value;
 					let readonly = this.variableAddService.getCharacteristic(CustomCharacteristic.TextReadonly).value;
 
 					setTimeout(function() {
 						that.variableAddService.setCharacteristic(CustomCharacteristic.VariableAdd, false);
 					},1000);
 
-					if (this.checkDuplicateVariableName(name))
-					{
+					if (this.checkDuplicateVariableName(name)) {
 						callback();
 						return;
 					}
@@ -302,8 +302,7 @@ VariableAddAccessory.prototype = {
 					CustomCharacteristic.Text = function() {
 						Characteristic.call(this, name, uuid);
 						let perms = [Characteristic.Perms.READ, Characteristic.Perms.NOTIFY];
-						if (!readonly)
-						{
+						if (!readonly) {
 							perms.push( Characteristic.Perms.WRITE);
 						}
 						this.setProps({
@@ -318,19 +317,24 @@ VariableAddAccessory.prototype = {
 				}
 				case 5:
 				{
+					// New options
 					typeName = "Timer";
-					name = this.variableAddService.getCharacteristic(CustomCharacteristic.VariableName).value;
 					let timerDays = this.variableAddService.getCharacteristic(CustomCharacteristic.TimerDays).value;
 					let timerHours = this.variableAddService.getCharacteristic(CustomCharacteristic.TimerHours).value;
 					let timerMinutes = this.variableAddService.getCharacteristic(CustomCharacteristic.TimerMinutes).value;
 					let timerSeconds = this.variableAddService.getCharacteristic(CustomCharacteristic.TimerSeconds).value;
+					let time = ((timerDays * 24 * 60 * 60) + (timerHours * 60 * 60) + (timerMinutes * 60) + timerSeconds);
+
+					// Cached options
+					if (cachedCharacteristic !== undefined) {
+						time = cachedCharacteristic.time;
+					}
 
 					setTimeout(function() {
 						that.variableAddService.setCharacteristic(CustomCharacteristic.VariableAdd, false);
-					},1000);
+					}, 1000);
 
-					if (this.checkDuplicateVariableName(name))
-					{
+					if (this.checkDuplicateVariableName(name)) {
 						callback();
 						return;
 					}
@@ -346,12 +350,17 @@ VariableAddAccessory.prototype = {
 							perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
 						});
 						this.value = this.getDefaultValue();
+						this.type = type;
+						this.time = time;
 					}
 					inherits(CustomCharacteristic.Switch, Characteristic);
 					this.variableListService.addCharacteristic(CustomCharacteristic.Switch);
 
+					if (!readd) {
+						this.storage.setItemSync("variable-" + name.toUpperCase(), this.variableListService.getCharacteristic(name));
+					}
+
 					// timer time in seconds
-					let time = ((timerDays * 24 * 60 * 60) + (timerHours * 60 * 60) + (timerMinutes * 60) + timerSeconds);
 					this.variableListService.getCharacteristic(name).on('set', this.startTimer.bind(this, name, time));
 					break;
 				}
@@ -361,7 +370,7 @@ VariableAddAccessory.prototype = {
 				}
 			}
 			
-			debug("Added variable\n--------------\n Name: %s\n UUID: %s\n Type: %s\n--------------", name, uuid, typeName);
+			debug("Added variable " + (readd ? "from cache " : "") + "\n--------------\n Name: %s\n UUID: %s\n Type: %s\n--------------", name, uuid, typeName);
 
 			// Remove dummy variable and reset placeholder text on callback
 			this.variableRemoveService.setCharacteristic(CustomCharacteristic.VariableName, this.hintPlaceholder);
@@ -374,8 +383,7 @@ VariableAddAccessory.prototype = {
 	checkDuplicateVariableName: function(name) {
 		debug("Checking " + name);
 		for (var i in this.variableListService.characteristics) {
-			if (this.variableListService.characteristics[i].displayName.toUpperCase() === name.toUpperCase())
-			{
+			if (this.variableListService.characteristics[i].displayName.toUpperCase() === name.toUpperCase()) {
 				this.log.warn("Check error: Variable with name \"%s\" already exists", name);
 				return true;
 			}
