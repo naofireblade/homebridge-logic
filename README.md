@@ -1,6 +1,6 @@
 # homebridge-logic
 
-This is a plugin for [homebridge](https://github.com/nfarina/homebridge) to create powerful variables like timers or counters from within homekit. You can download it via [npm](https://www.npmjs.com/package/homebridge-logic).
+This is a plugin for [homebridge](https://github.com/nfarina/homebridge) to create powerful variables like timers and counters within homekit. You can download it via [npm](https://www.npmjs.com/package/homebridge-logic).
 
 Feel free to leave any feedback [here](https://github.com/naofireblade/homebridge-logic/issues).
 
@@ -31,7 +31,7 @@ Feel free to leave any feedback [here](https://github.com/naofireblade/homebridg
 
 1. Install homebridge using: `npm install -g homebridge`
 2. Install this plugin using: `npm install -g homebridge-logic`
-3. Update your configuration file. See the samples below.
+3. Update your configuration file. See the sample below.
 
 ### Configuration
 
@@ -51,7 +51,7 @@ Add the following information to your config file. Make sure to add your API key
 Find and add your own here [here](https://github.com/naofireblade/homebridge-logic/wiki)
 
 ## Screenshots
-### Choose variable type to add
+### Choose a variable type to add
 ![Variable types to add](https://i.imgur.com/WMUG97gl.png)
 
 ### Define variable options
