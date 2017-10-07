@@ -14,14 +14,14 @@ Feel free to leave any feedback [here](https://github.com/naofireblade/homebridg
 - List and use variables.
 - Utilize the variables in homekit rules.
 
-## Variable types and options
+### Variable types and options
 
 - Timer (Days, Hours, Minutes, Seconds)
 - Counter (Min, Max, Count up, Count down)
 - Switch (On, Off)
 - Text (Value, Readonly)
 
-## Compatible Homekit Apps
+### Compatible Homekit Apps
 
 - [Elgato Eve](https://itunes.apple.com/de/app/elgato-eve/id917695792)
 - [Home](https://itunes.apple.com/de/app/home-hausautomatisierung/id995994352) (no custom variable names, no rules)
