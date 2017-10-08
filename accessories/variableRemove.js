@@ -25,6 +25,8 @@ function VariableRemoveAccessory(platform) {
 	// Get other services from platform that will be used in this accessory
 	this.informationService = platform.informationService;
 	this.variableListService = platform.variableListService;
+	this.storage = platform.storage;
+
 	let VariableRemoveService = require('../services/remove')(Service, Characteristic, CustomCharacteristic, CustomUUID);
 	this.variableRemoveService = new VariableRemoveService(this.name);
 	this.variableRemoveService.getCharacteristic(CustomCharacteristic.VariableRemove).on('set', this.removeVariable.bind(this));
@@ -60,6 +62,7 @@ VariableRemoveAccessory.prototype = {
 			}
 			for (var i in removeList) {
 				this.variableListService.removeCharacteristic(removeList[i]);
+				this.storage.removeItemSync("variable-" + name.toLowerCase())
 				debug("Removed variable with name \"%s\"", removeList[i].displayName);
 			}
 
