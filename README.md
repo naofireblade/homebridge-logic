@@ -27,6 +27,14 @@ Feel free to leave any feedback [here](https://github.com/naofireblade/homebridg
 - [Home](https://itunes.apple.com/de/app/home-hausautomatisierung/id995994352) (no custom variable names, no rules)
 - [Report new](https://github.com/naofireblade/homebridge-logic/issues)
 
+### Troubleshooting
+
+#### I cannot add my variable
+Check if a variable with the same name already exists.
+
+#### My added variable does not show up in the list
+In the current Eve app you have to change the room twice and then open the variable list again to a refresh it.
+
 ## Installation
 
 1. Install homebridge using: `npm install -g homebridge`

@@ -102,29 +102,48 @@ LogicPlatform.prototype = {
 		this.accessories.push(variableRemoveAccessory);
 		this.accessories.push(variableListAccessory);
 
-		debug("Check for cached variables");
+		// re-add variables from cache after homebridge restart
 		for (var i in this.storage.values()) {
-			let cachedCharacteristic = this.storage.values()[i];
-			// TODO statt hier nem switch case, die addVariable Methode viel dynamischer machen, sodass sie erkennt ob aus cache geladen wird
-			// und dann entsprechend die werte aus den option characteristiken zu laden oder im cache nach der characteristic sucht welche die
-			// options als properties in sich selbst gespeichert hat (name muss als parameter übergeben werden)
-			switch (cachedCharacteristic.type)
+			debug("blub");
+			let cachedVariable = this.storage.values()[i];
+			let addAccessory;
+
+			switch (parseInt(cachedVariable.type))
 			{
+				case 1:
+				{
+					addAccessory = variableAddCounterAccessory;
+					break;
+				}
+				case 2:
+				{
+					addAccessory = variableAddSensorAccessory;
+					break;
+				}
+				case 3:
+				{
+					addAccessory = variableAddSwitchAccessory;
+					break;
+				}
+				case 4:
+				{
+					addAccessory = variableAddTextAccessory;
+					break;
+				}
 				case 5:
 				{
-					variableAddTimerAccessory.variableAddService.setCharacteristic(CustomCharacteristic.VariableName, cachedCharacteristic.displayName);
-					variableAddTimerAccessory.addVariable(cachedCharacteristic.type, true, function() {
-						debug("Added variable from cache: " + cachedCharacteristic.displayName);
-					});
+					addAccessory = variableAddTimerAccessory;
 					break;
 				}
 				default:
 				{
-					break;
+					debug("Non compatible type " + cachedVariable.type + " found in cache.");
+					debug(cachedVariable);
+					return;
 				}
 			}
+			addAccessory.addVariable(cachedVariable.type, cachedVariable.name);
 		}
-
 		callback(this.accessories);
 	}
 }
