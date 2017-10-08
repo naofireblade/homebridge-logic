@@ -66,6 +66,10 @@ LogicPlatform.prototype = {
 		this.variableNamePlaceholder = variableNamePlaceholder;
 		this.hintPlaceholder = hintPlaceholder;
 
+		let directory = "/var/lib/homebridge-dev/logic";
+		this.storage = require('node-persist');
+		this.storage.initSync({dir:directory});
+
 		// General information service for all accessories in this platform
 		this.informationService = new Service.AccessoryInformation();
 		this.informationService.setCharacteristic(Characteristic.Manufacturer, "Homebridge Logic");
@@ -98,6 +102,48 @@ LogicPlatform.prototype = {
 		this.accessories.push(variableRemoveAccessory);
 		this.accessories.push(variableListAccessory);
 
+		// re-add variables from cache after homebridge restart
+		for (var i in this.storage.values()) {
+			debug("blub");
+			let cachedVariable = this.storage.values()[i];
+			let addAccessory;
+
+			switch (parseInt(cachedVariable.type))
+			{
+				case 1:
+				{
+					addAccessory = variableAddCounterAccessory;
+					break;
+				}
+				case 2:
+				{
+					addAccessory = variableAddSensorAccessory;
+					break;
+				}
+				case 3:
+				{
+					addAccessory = variableAddSwitchAccessory;
+					break;
+				}
+				case 4:
+				{
+					addAccessory = variableAddTextAccessory;
+					break;
+				}
+				case 5:
+				{
+					addAccessory = variableAddTimerAccessory;
+					break;
+				}
+				default:
+				{
+					debug("Non compatible type " + cachedVariable.type + " found in cache.");
+					debug(cachedVariable);
+					return;
+				}
+			}
+			addAccessory.addVariable(cachedVariable.type, cachedVariable.name);
+		}
 		callback(this.accessories);
 	}
 }

@@ -46,6 +46,14 @@ Add the following information to your config file. Make sure to add your API key
 ]
 ```
 
+### Troubleshooting
+
+#### I cannot add my variable
+Check if a variable with the same name already exists.
+
+#### My added variable does not show up in the list
+In the current Eve app you have to change the room twice and then open the variable list again to a refresh it.
+
 ## Example use cases
 
 Find and add your own here [here](https://github.com/naofireblade/homebridge-logic/wiki)
