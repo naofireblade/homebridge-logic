@@ -7,3 +7,7 @@
 * Added switch variable type
 * Added text variable type
 * Added timer variable type
+
+## 0.2.0
+
+* Added persistence
