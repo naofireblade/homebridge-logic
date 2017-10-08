@@ -11,3 +11,7 @@
 ## 0.2.0
 
 * Added persistence
+
+## 0.2.1
+
+* Added cacheDir option to config

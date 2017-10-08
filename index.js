@@ -59,6 +59,7 @@ module.exports = function (homebridge) {
 function LogicPlatform(log, config) {
 	this.log = log;
 	this.config = config;
+	this.cacheDir = config['cacheDir'];
 }
 
 LogicPlatform.prototype = {
@@ -66,9 +67,8 @@ LogicPlatform.prototype = {
 		this.variableNamePlaceholder = variableNamePlaceholder;
 		this.hintPlaceholder = hintPlaceholder;
 
-		let directory = "/var/lib/homebridge-dev/logic";
 		this.storage = require('node-persist');
-		this.storage.initSync({dir:directory});
+		this.storage.initSync({dir:this.cacheDir});
 
 		// General information service for all accessories in this platform
 		this.informationService = new Service.AccessoryInformation();

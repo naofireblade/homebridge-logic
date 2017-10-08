@@ -35,13 +35,14 @@ Feel free to leave any feedback [here](https://github.com/naofireblade/homebridg
 
 ### Configuration
 
-Add the following information to your config file. Make sure to add your API key and provide your city or postal code.
+Add the following information to your config file. Set a writable folder as cache directory.
 
 ```json
 "platforms": [
 	{
 		"platform": "Logic",
-		"name": "Logic"
+		"name": "Logic",
+		"cacheDir": "/var/lib/homebridge/logic"
 	}
 ]
 ```
