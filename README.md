@@ -21,6 +21,11 @@ Feel free to leave any feedback [here](https://github.com/naofireblade/homebridg
 - Switch (On, Off)
 - Text (Value, Readonly)
 
+#### Coming soon
+
+- Event (Date, Time)
+- Recurring Event (Day of month, Weekday, Hour, Minute, Second)
+
 ### Compatible Homekit Apps
 
 - [Elgato Eve](https://itunes.apple.com/de/app/elgato-eve/id917695792)
