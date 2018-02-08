@@ -1,4 +1,7 @@
 # homebridge-logic
+[![npm](https://img.shields.io/npm/v/homebridge-logic.svg?style=flat-square)](https://www.npmjs.com/package/homebridge-logic)
+[![npm](https://img.shields.io/npm/dt/homebridge-logic.svg?style=flat-square)](https://www.npmjs.com/package/homebridge-logic)
+[![GitHub last commit](https://img.shields.io/github/last-commit/naofireblade/homebridge-logic.svg?style=flat-square)](https://github.com/naofireblade/homebridge-logic)
 
 This is a plugin for [homebridge](https://github.com/nfarina/homebridge) to create powerful variables like timers and counters within homekit. You can download it via [npm](https://www.npmjs.com/package/homebridge-logic).
 
